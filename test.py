@@ -1,6 +1,7 @@
 import copy as copy
 
 
+# function returns a list of vectors containing the first input x's neighborhood.
 def generate_neighborhood(x=[], neighborhood=[], current_span=[], delta=1):
     if len(x) == 1:
         span1 = list(current_span)
@@ -24,9 +25,6 @@ def generate_neighborhood(x=[], neighborhood=[], current_span=[], delta=1):
     return neighborhood
 
 
-res = generate_neighborhood(x=[5, 10, 100, 1000, 10000, 22, 25])
-print(res)
-print(len(res))
-res.remove([5, 10, 100, 1000, 10000, 22, 25])
+res = generate_neighborhood(x=[5])
 print(res)
 print(len(res))
