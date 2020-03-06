@@ -76,7 +76,7 @@ class LocalSearch:
 
 
 def f1(x):
-    return x[0]**2
+    return math.pow(x[0], 2)
 
 
 def main():
