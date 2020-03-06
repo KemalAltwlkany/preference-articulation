@@ -1,92 +1,37 @@
 import copy as copy
-from Solution import *
+from SearchAlgorithm import *
 
 
-class LocalSearch:
+class LocalSearch(SearchAlgorithm):
 
     def __init__(self, init_sol=None, objectives=None, delta=None, max_iter=None, constraints=None):
-        self.init_sol = init_sol
-        self.max_iter = max_iter
-        self.objectives = objectives
-        self.constraints = constraints
-        self.delta = delta
-
-    # function returns a list of vectors containing the first input x's neighborhood.
-    # noinspection DuplicatedCode
-    def generate_neighborhood(self, x=[], neighborhood=[], current_span=[]):
-        if len(x) == 1:
-            span1 = list(current_span)
-            span1.append(x[0] - self.delta)
-            span2 = list(current_span)
-            span2.append(x[0])
-            span3 = list(current_span)
-            span3.append(x[0] + self.delta)
-            neighborhood.append(span1)
-            neighborhood.append(span2)
-            neighborhood.append(span3)
-            return neighborhood
-        else:
-            new_span = list(current_span)
-            new_span.append(x[0])
-            neighborhood = self.generate_neighborhood(x=x[1:], neighborhood=neighborhood, current_span=new_span)
-            new_span[-1] = new_span[-1] - self.delta
-            neighborhood = self.generate_neighborhood(x=x[1:], neighborhood=neighborhood, current_span=new_span)
-            new_span[-1] = new_span[-1] + 2 * self.delta
-            neighborhood = self.generate_neighborhood(x=x[1:], neighborhood=neighborhood, current_span=new_span)
-        return neighborhood
-
-    def sort_neighborhood(self, neighborhood):
-        pass
-
-    def evaluate_solution(self, sol):
-        y = []
-        for f in self.objectives:
-            y.append(f(sol.x))
-        return y
-
-    # WORKS FOR SINGLE OBJECTIVE PROBLEMS ONLY, NEEDS TO BE REWORKED
-    @staticmethod
-    def compare_solutions(sol1):
-        return sol1.y[0]
+        super().__init__(init_sol, objectives, delta, max_iter, constraints)
 
     def search(self):
         it = 0
-        y = self.evaluate_solution(self.init_sol)
-        self.init_sol.set_y(y)
-        curr_sol = self.init_sol
+        # algorithm should evaluate initial solution before anything else
+        self.init_sol.y = self.evaluate_solution(self.init_sol)
+        self.curr_sol = copy.deepcopy(self.init_sol)
         while it < self.max_iter:
             it = it + 1
-            prev_sol = copy.deepcopy(curr_sol)
-            neighborhood_search_space = self.generate_neighborhood(curr_sol.x)
-            neighborhood_search_space.remove(curr_sol.x)
-            neighborhood_solutions = []
+            prev_sol = copy.deepcopy(self.curr_sol)
 
-            for x in neighborhood_search_space:
-                neighborhood_solutions.append(Solution(x))
-                y = self.evaluate_solution(neighborhood_solutions[-1])
-                neighborhood_solutions[-1].set_y(y)
+            self.generate_neighborhood(self.curr_sol)
+            self.evaluate_neighborhood()
+            self.sort_neighborhood()
 
-            neighborhood_solutions.sort(key=LocalSearch.compare_solutions)
-            curr_sol = neighborhood_solutions[0]
+            self.curr_sol = self.neighborhood[0]  # new solution becomes the best of the neighborhood
 
-            if prev_sol == curr_sol:
+            if prev_sol == self.curr_sol:
                 print('Terminating after iteration number', it, ' because local extrema was found')
+                return self.curr_sol
+
         print('Terminating because max iterations were exceeded')
-        return curr_sol
-
-
-def f1(x):
-    return math.pow(x[0], 2)
+        return self.curr_sol
 
 
 def main():
-    init_sol = Solution([16])
-    delta = 0.1
-    max_iter = 500
-    objectives = [f1]
-    example = LocalSearch(init_sol=init_sol, objectives=objectives, delta=delta, max_iter=max_iter)
-    res = example.search()
-    print('Result x=', res.x, ' with criteria y=', res.y)
+    pass
 
 
 if __name__ == '__main__':
