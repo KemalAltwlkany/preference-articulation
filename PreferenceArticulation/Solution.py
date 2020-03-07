@@ -26,7 +26,7 @@ class Solution:
         and absolute tolerance allowed between individual coordinates.
         """
         if isinstance(other, Solution):
-            for i,j in zip(self.x, other.x):
+            for i, j in zip(self.x, other.x):
                 if math.isclose(i, j, rel_tol=Solution.eps, abs_tol=Solution.eps):
                     continue
                 else:

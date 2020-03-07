@@ -1,0 +1,2 @@
+*** 07.03.2020. ***
+Changed the project interpreter and therefore the removed and added a new venv folder due to some issues with global site packages from the first venv. Works fine now.

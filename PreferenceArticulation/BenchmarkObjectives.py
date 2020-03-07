@@ -14,6 +14,25 @@ class Objectives:
             summ = summ + math.pow(i, 2)
         return summ
 
+    @staticmethod
+    def f1(x):
+        """ B"""
+        pass
 
 
-print(Objectives.quadratic([2, 10]))
+# noinspection PyPep8Naming
+class Objectives_2D:
+    """
+    Class contains objective functions which can be applied to 2-dimensional search spaces.
+    """
+
+    # fix
+    # should check whether this works for both np arrays and python lists/arrays
+    @staticmethod
+    def f1(x, A=10):
+        return math.pow(x[0] - 5, 2) + math.pow(10*x[1]/A - 6, 2)
+
+    @staticmethod
+    def f2(x, A=10):
+        return math.pow(x[0] - 7, 2) + math.pow(10*x[1]/A - 6, 2)
+

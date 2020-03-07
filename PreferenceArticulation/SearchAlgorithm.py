@@ -1,6 +1,5 @@
-from BenchmarkObjectives import *
-from Solution import *
-from ArticulationExceptions import *
+from PreferenceArticulation.ArticulationExceptions import *
+from PreferenceArticulation.Solution import *
 
 
 class SearchAlgorithm:
@@ -80,15 +79,22 @@ class SearchAlgorithm:
         for sol in self.neighborhood:
             sol.y = self.evaluate_solution(sol)
 
-    # fix
     def evaluate_solution(self, sol):
-        # SHOULD RETURN VECTOR OF EVALUATED OBJECTIVE FUNCTIONS! (y)
-        raise AbstractMethod("Error! Method 'evaluate_solution' is not overridden!")
+        """
+        Evaluating the solution means computing all the objective functions, i.e. filling the Solution.y vector
+        :param sol: <class 'Solution'>
+        :return:
+        """
+        y = []
+        for f in self.objectives:
+            y.append(f(sol.x))
+        return y
 
-    # fix
+    # abstract
     def sort_neighborhood(self):
         raise AbstractMethod("Error! Method 'sort_neighborhood' is not overridden!")
 
+    # abstract
     def search(self):
         raise AbstractMethod("Error! Method 'search' is not overridden!")
 

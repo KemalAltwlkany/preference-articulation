@@ -7,6 +7,7 @@ class LocalSearch(SearchAlgorithm):
     def __init__(self, init_sol=None, objectives=None, delta=None, max_iter=None, constraints=None):
         super().__init__(init_sol, objectives, delta, max_iter, constraints)
 
+    # uses abstract methods, so only child classes can invoke this method
     def search(self):
         it = 0
         # algorithm should evaluate initial solution before anything else
@@ -28,12 +29,4 @@ class LocalSearch(SearchAlgorithm):
 
         print('Terminating because max iterations were exceeded')
         return self.curr_sol
-
-
-def main():
-    pass
-
-
-if __name__ == '__main__':
-    main()
 
