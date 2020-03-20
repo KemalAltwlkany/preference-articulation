@@ -1,3 +1,5 @@
+from functools import reduce
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math as math
@@ -6,6 +8,10 @@ import plotly.graph_objects as go
 import plotly.express as px
 from decimal import Decimal
 import random as random
+from scipy.spatial import Delaunay
+import matplotlib.cm as cm
+import chart_studio.plotly as py
+
 
 fig_num = 1
 
@@ -285,14 +291,66 @@ def comet_problem():
     f1 = []
     f2 = []
     f3 = []
-    for x1 in x1_space:
-        for x2 in x2_space:
-            re = math.pow(x1, 3)*x2
-            if -2 < re < 2:
-                p2 = math.pow(x1, 3) * math.pow(x2, 2)
-                f1.append(-(p2 - 10*x1 - 4*x2))
-                f2.append(-(p2 - 10*x1 + 4*x2))
-                f3.append(-3*math.pow(x1, 2))
+    f1red, f2red, f3red = [], [], []
+    pts = 0
+    while pts < 3000:
+        x1 = random.uniform(1, 3.5)
+        x2 = random.uniform(-2, 2)
+        val1 = math.pow(x1, 3)*x2
+        if val1 - 2 > 0 or val1 + 2 < 0:
+            p2 = math.pow(x1, 3) * math.pow(x2, 2)
+            f1.append(-(p2 - 10 * x1 - 4 * x2))
+            f2.append(-(p2 - 10 * x1 + 4 * x2))
+            f3.append(-3 * math.pow(x1, 2))
+            continue
+        else:
+            pts = pts + 1
+            p2 = math.pow(x1, 3) * math.pow(x2, 2)
+            f1red.append(-(p2 - 10*x1 - 4*x2))
+            f2red.append(-(p2 - 10*x1 + 4*x2))
+            f3red.append(-3*math.pow(x1, 2))
+
+    # for x1 in x1_space:
+    #     for x2 in x2_space:
+    #         re = math.pow(x1, 3)*x2
+    #         if -2 < re < 2:
+    #             p2 = math.pow(x1, 3) * math.pow(x2, 2)
+    #             f1.append(-(p2 - 10*x1 - 4*x2))
+    #             f2.append(-(p2 - 10*x1 + 4*x2))
+    #             f3.append(-3*math.pow(x1, 2))
+
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(f1, f2, f3)
+    ax.scatter(f1red, f2red, f3red, color='r')
+
+    fig2 = go.Figure(data=[go.Scatter3d(
+        x=f1,
+        y=f2,
+        z=f3,
+        mode='markers',
+        marker=dict(
+            size=6,
+            color=f3,  # set color to an array/list of desired values
+            colorscale='Viridis',  # choose a colorscale
+            opacity=0.4
+        )
+    )])
+    fig2 = go.Figure(data=[go.Scatter3d(
+        x=f1red,
+        y=f2red,
+        z=f3red,
+        mode='markers',
+        marker=dict(
+            size=6,
+            color=f3red,  # set color to an array/list of desired values
+            colorscale='magma',  # choose a colorscale
+            opacity=0.8
+        )
+    )])
+    fig2.show()
+    plt.show()
 
     # x1_space = np.linspace(-1, 3.5, 25)
     # x2_space = np.linspace(-2, 2, 25)
@@ -309,7 +367,9 @@ def comet_problem():
     #             f2.append(-p1 * (p2 - 10*x1 + 4*x2))
     #             f3.append(-3*p1*math.pow(x1, 2))
 
-    fig = go.Figure(data=[go.Surface(z=np.array(f3), y=np.array(f2), x=np.array(f1))])
+
+
+    # fig = go.Figure(data=[go.Surface(z=np.array(f3), y=np.array(f2), x=np.array(f1))])
 
 
 
@@ -327,7 +387,7 @@ def comet_problem():
     #         zaxis=dict(nticks=5, range=[-40, 0], ), ))
 
 
-    fig.show()
+    # fig.show()
     # fig = plt.figure(fig_num)
     # ax = plt.axes(projection='3d')
     # X, Y = np.meshgrid(x1_space, x2_space)
