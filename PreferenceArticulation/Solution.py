@@ -6,7 +6,7 @@ class Solution:
     The solution class is a simple wrapper that contains information about the solution in the SearchSpace, i.e. the
     vector of parameters (x), and the vector of evaluated objective functions (y) for that solution.
     """
-    eps = 0.000001
+    eps = 0.0001
 
     def __init__(self, x):
         self.x = x

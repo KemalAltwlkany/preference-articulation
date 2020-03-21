@@ -1,4 +1,4 @@
-from LocalSearch.LocalSearch import LocalSearch
+from LocalSearch import LocalSearch
 
 
 class LocalSearchApriori(LocalSearch):
@@ -7,11 +7,18 @@ class LocalSearchApriori(LocalSearch):
     simply aggregating all the objective functions into one objective function, optionally weighted. If no vector
     of weights is passed then it's assumed it's a vector of 1's, i.e. w[i] = 1, for every i.
     """
-    def __init__(self, init_sol=None, objectives=None, delta=None, max_iter=None, constraints=None, weights=None):
-        super().__init__(init_sol, objectives, delta, max_iter, constraints)
+
+    n_objectives = 1
+    weights = [1, 1]
+
+    def __init__(self, init_sol=None, problem=None, delta=None, max_iter=None, constraints=None, weights=None, n_objectives=None):
+        super().__init__(init_sol=init_sol, problem=problem, delta=delta, max_iter=max_iter, constraints=constraints)
         self.weights = weights
+        self.n_objectives = n_objectives
         if weights is None:
-            self.weights = [1]*len(self.objectives)  # in case no weights have been specified, use unity weights
+            self.weights = [1]*n_objectives  # in case no weights have been specified, use unity weights
+        LocalSearchApriori.weights = self.weights
+        LocalSearchApriori.n_objectives = n_objectives
 
     def sort_neighborhood(self):
         """In apriori articulation the set of objective functions is aggregated into one function, effectively making
@@ -21,7 +28,7 @@ class LocalSearchApriori(LocalSearch):
         """
         self.neighborhood.sort(key=LocalSearchApriori.compute_fitness)
 
-    def compute_fitness(self, sol):
+    def compute_fitness(sol):
         """
         In apriori articulation, a full order can be introduced within the set of solutions being considered.
         The parameter/key which is used to establish full order is called the fitness of the solution.
@@ -29,7 +36,7 @@ class LocalSearchApriori(LocalSearch):
         :return:
         """
         fit = 0
-        for i in range(len(self.objectives)):
-            fit = fit + self.weights[i] * sol.y[i]
+        for i in range(LocalSearchApriori.n_objectives):
+            fit = fit + LocalSearchApriori.weights[i] * sol.y[i]
         return fit
 

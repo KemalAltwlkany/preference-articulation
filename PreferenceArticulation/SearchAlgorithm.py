@@ -18,14 +18,15 @@ class SearchAlgorithm:
             specific.
     """
 
-    def __init__(self, init_sol=None, objectives=None, delta=None, max_iter=None, constraints=None):
-        self.init_sol = init_sol
-        self.objectives = objectives
+    def __init__(self, init_sol=None, problem=None, delta=None, max_iter=None, constraints=None):
+        self.init_sol = init_sol    # class Solution
+        self.problem = problem  # static method of class MOO_Problem
         self.delta = delta
         self.max_iter = max_iter
         self.constraints = constraints
         self.neighborhood = []
         self.curr_sol = init_sol  # current best solution
+        self.search_history = []    # list of all previous "current" solutions.
 
     # noinspection DuplicatedCode
     def generate_adjacent_x_vectors(self, x=[], neighborhood=[], current_span=[]):
@@ -69,6 +70,9 @@ class SearchAlgorithm:
     def generate_neighborhood(self, sol):
         # returns a list of vectors in SearchSpace which are in the neighborhood of solution sol.
         tmp = self.generate_adjacent_x_vectors(sol.x)
+        # --IMPORTANT--
+        # next line of code removes the original solution (sol) from the neighborhood!
+        tmp.remove(sol.x)
         # generates objects of class Solution from x-vectors
         lst = []
         for x in tmp:
@@ -83,12 +87,10 @@ class SearchAlgorithm:
         """
         Evaluating the solution means computing all the objective functions, i.e. filling the Solution.y vector
         :param sol: <class 'Solution'>
-        :return:
+        :return: a list of floats, containing the evaluations of the objectives, defined by self.problem
+        # self.problem is one of the static methods of class MOO_Problem which returns the specified list.
         """
-        y = []
-        for f in self.objectives:
-            y.append(f(sol.x))
-        return y
+        return self.problem(sol.x)
 
     # abstract
     def sort_neighborhood(self):
