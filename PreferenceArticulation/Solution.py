@@ -36,3 +36,23 @@ class Solution:
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __str__(self):
+        str_ = "\n------ Class solution -------\n"
+        str_ = str_ + "Decision variables: ["
+        for ind, xi in enumerate(self.x):
+            if ind is not len(self.x)-1:
+                str_ = str_ + str(xi) + ", "
+            else:
+                str_ = str_ + str(xi) + "]"
+
+        str_ = str_ + "\nObjectives values: ["
+        for ind, yi in enumerate(self.y):
+            if ind is not len(self.y)-1:
+                str_ = str_ + "f" + str(ind+1) + "=" + str(yi) + ", "
+            else:
+                str_ = str_ + "f" + str(ind+1) + "=" + str(yi) + "]"
+        str_ = str_ + "\n------ ------------- -------"
+        return str_
+
+
+

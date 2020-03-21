@@ -28,6 +28,7 @@ class LocalSearchApriori(LocalSearch):
         """
         self.neighborhood.sort(key=LocalSearchApriori.compute_fitness)
 
+    @staticmethod
     def compute_fitness(sol):
         """
         In apriori articulation, a full order can be introduced within the set of solutions being considered.

@@ -20,6 +20,7 @@ def LS_BK1():
     n_objectives = 2
     search_alg = LocalSearchApriori(init_sol=init_sol, problem=problem, delta=delta, max_iter=max_iter, constraints=constraints, weights=weights, n_objectives=n_objectives)
     search_history = search_alg.search()
+    print('Final solution is: ', search_history[-1])
 
     # plotting the results
     global fig_num
