@@ -1,3 +1,7 @@
+# THIS FILE IS NOT USED.
+# DIDN'T DELETE IT BECAUSE SOME CODE FRAGMENTS MIGHT BE USEFUL IN THE FUTURE.
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from PreferenceArticulation.BenchmarkObjectives import *

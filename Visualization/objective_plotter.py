@@ -24,11 +24,11 @@ fig_num = 1
 # R6.) Dissimilar Tradeoff Ranges
 # R7.) Pareto Optima Known
 
-
+# done
 # noinspection DuplicatedCode
-def a1():
+def BK1():
     """
-    In the work of S. Huband, this test function is labeled "BK1"
+    In the work of S. Huband, this test problem is labeled "BK1"
     From T.T.Binh, U. Korn - "An evolution strategy for the multiobjective optimization"; page 4/6
     A simple bi-objective problem
         f1(x1, x2) = x1**2 + x2**2
@@ -38,6 +38,10 @@ def a1():
     f1: Separable, Unimodal
     f2: Separable, Unimodal
     Pareto front convex
+    The Pareto front is defined for x1 € [0, 5] and x2 € [0,5].
+    This is logical, because the first function is optimized for (0,0) and the second for (5, 5). Any inbetween solutions
+    due to the linear derivative of the 2 objectives is a trade-off.
+
     R1 - y, R2 - no, R3 - no, R4 - no, R5 - no, R6 - no, R7 - no
 
     :return:
@@ -64,6 +68,8 @@ def a1():
     fig_num = fig_num + 1
 
     # second part plots the Pareto front of the problem
+    x1 = np.linspace(0, 5, 50)
+    x2 = np.linspace(0, 5, 50)
     f1 = x1**2 + x2**2
     f2 = (x1-5)**2 + (x2-5)**2
     plt.plot(f1, f2, linewidth=3.5, linestyle='-', color='r')
@@ -78,11 +84,11 @@ def a1():
     fig_num = fig_num + 1
     plt.show()
 
-
+# done
 # noinspection DuplicatedCode
-def a2():
+def IM1():
     """
-    In the work of S. Huband, this test function is labeled "IM1"
+    In the work of S. Huband, this test problem is labeled "IM1"
     From: H. Ishibuchi,T. Murata;
     "A multi-objective genetic local search algorithm and its application to flowshop scheduling"
     Test problem 2:
@@ -139,9 +145,20 @@ def a2():
     fig_num = fig_num + 1
     plt.show()
 
-
-#noinspection DuplicatedCode
+# not used, not enough information.
+# noinspection DuplicatedCode
 def a3():
+    """
+    In the work of S. Huband, this function is presented. It originates from:
+    "https://link.springer.com/chapter/10.1007/BFb0029752"
+    "F.. Kursawe, “A variant of evolution strategies for vector optimization,”
+        in Lecture Notes in Computer Science, H.-P. Schwefel and R. Männer,
+        Eds. Berlin, Germany: Springer-Verlag, 1991, vol. 496, Proc. Parallel
+        Problem Solving From Nature. 1st Workshop, PPSN I, pp. 193–197."
+    I possess this paper, however it only presents this function without devoting any time to analyze the details
+    about it. The Pareto optimal set is not given either.
+    :return:
+    """
     global fig_num
     x1_space = np.linspace(-5, 5, 200)
     x2_space = np.linspace(-5, 5, 200)
@@ -168,7 +185,7 @@ def a3():
     fig_num = fig_num + 1
     plt.show()
 
-
+# done
 # noinspection DuplicatedCode
 # noinspection PyPep8Naming
 def SCH1():
@@ -213,7 +230,7 @@ def SCH1():
     fig_num = fig_num + 1
     plt.show()
 
-
+# done
 # noinspection DuplicatedCode
 def FON():
     """
@@ -276,13 +293,14 @@ def FON():
     fig_num = fig_num + 1
     plt.show()
 
-
+# done
 # noinspection DuplicatedCode
 def comet_problem():
     """
     Paper: "K. Deb, L. Thiele, M. Laumanns, E. Zitzler - Scalable test problems for evolutionary multi-objective optimization"
     introduces the Comet problem in section 4.6, on page 10.
     It is an illustration of the bottom-up approach to design test problems.
+    It is a tri-objective problem, and the Pareto front is known and explained within detail in the paper itself.
     :return:
     """
     global fig_num
@@ -309,16 +327,6 @@ def comet_problem():
             f1red.append(-(p2 - 10*x1 - 4*x2))
             f2red.append(-(p2 - 10*x1 + 4*x2))
             f3red.append(-3*math.pow(x1, 2))
-
-    # for x1 in x1_space:
-    #     for x2 in x2_space:
-    #         re = math.pow(x1, 3)*x2
-    #         if -2 < re < 2:
-    #             p2 = math.pow(x1, 3) * math.pow(x2, 2)
-    #             f1.append(-(p2 - 10*x1 - 4*x2))
-    #             f2.append(-(p2 - 10*x1 + 4*x2))
-    #             f3.append(-3*math.pow(x1, 2))
-
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -410,7 +418,7 @@ def comet_problem():
     # fig_num = fig_num + 1
     # plt.show()
 
-
+# done
 def TNK():
     """
     I've found about the paper:
@@ -498,6 +506,7 @@ def TNK():
     plt.show()
 
 
+# done
 def OSY():
     """
     From paper:
@@ -534,7 +543,7 @@ def OSY():
             continue
         f1.append(-25*math.pow(x1 - 2, 2) - math.pow(x2 - 2, 2) - math.pow(x3 - 1, 2) - math.pow(x4 - 4, 2) - math.pow(x5 - 1, 2))
         f2.append(x1**2 + x2**2 + x3**2 + x4**2 + x5**2 + x6**2)
-        print(len(f1))
+        # print(len(f1))
 
     fig = plt.figure(fig_num)
     fig_num = fig_num + 1
@@ -601,11 +610,11 @@ def OSY():
 
 
 if __name__ == '__main__':
-    # a1()
-    # a2()
+    BK1()
+    # IM1()
     # SCH1()
     # FON()
-    comet_problem()
-    # a3()
     # TNK()
     # OSY()
+    # comet_problem()
+    # a3()
