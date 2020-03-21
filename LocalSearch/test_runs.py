@@ -1,4 +1,4 @@
-from LS_apriori import LocalSearchApriori
+from LocalSearch.LS_apriori import LocalSearchApriori
 from PreferenceArticulation.BenchmarkObjectives import MOO_Problem
 from PreferenceArticulation.Solution import Solution
 import numpy as np

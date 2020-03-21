@@ -1,5 +1,5 @@
-from PreferenceArticulation.ArticulationExceptions import *
-from PreferenceArticulation.Solution import *
+from PreferenceArticulation.ArticulationExceptions import ArticulationType, AbstractMethod
+from PreferenceArticulation.Solution import Solution
 
 
 class SearchAlgorithm:

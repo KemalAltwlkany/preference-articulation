@@ -1,5 +1,5 @@
 import copy as copy
-from PreferenceArticulation.SearchAlgorithm import *
+from PreferenceArticulation.SearchAlgorithm import SearchAlgorithm
 
 
 class LocalSearch(SearchAlgorithm):
