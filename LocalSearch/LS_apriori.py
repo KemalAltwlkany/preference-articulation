@@ -11,8 +11,9 @@ class LocalSearchApriori(LocalSearch):
     n_objectives = 1
     weights = [1, 1]
 
-    def __init__(self, init_sol=None, problem=None, delta=None, max_iter=None, constraints=None, weights=None, n_objectives=None):
-        super().__init__(init_sol=init_sol, problem=problem, delta=delta, max_iter=max_iter, constraints=constraints)
+    def __init__(self, init_sol=None, problem=None, delta=None, max_iter=None, constraints=None, M=100,
+                 weights=None, n_objectives=None):
+        super().__init__(init_sol=init_sol, problem=problem, delta=delta, max_iter=max_iter, constraints=constraints, M=M)
         self.weights = weights
         self.n_objectives = n_objectives
         if weights is None:

@@ -4,9 +4,11 @@ import copy as copy
 
 class TabuSearch(SearchAlgorithm):
 
-    def __init__(self, init_sol=None, problem=None, delta=None, max_iter=None, constraints=None, tabu_list_max_length=30, max_loops=10):
-        super().__init__(init_sol=init_sol, problem=problem, delta=delta, max_iter=max_iter, constraints=constraints)
-        self.max_loops = max_loops    # maximum steps tolerated for the algorithm to run without any significant change in the search occuring
+    def __init__(self, init_sol=None, problem=None, delta=None, max_iter=None, constraints=None, M=100,
+                 tabu_list_max_length=30, max_loops=10):
+        super().__init__(init_sol=init_sol, problem=problem, delta=delta, max_iter=max_iter,
+                         constraints=constraints, M=M)
+        self.max_loops = max_loops    # maximum steps tolerated for the algorithm to run without any significant change in the search occurring
         self.tabu_list = []
         self.tabu_list_max_length = tabu_list_max_length
 

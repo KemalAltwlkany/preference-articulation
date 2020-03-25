@@ -18,15 +18,16 @@ class SearchAlgorithm:
             specific.
     """
 
-    def __init__(self, init_sol=None, problem=None, delta=None, max_iter=None, constraints=None):
+    def __init__(self, init_sol=None, problem=None, delta=None, max_iter=None, constraints=None, M=100):
         self.init_sol = init_sol    # class Solution
         self.problem = problem  # static method of class MOO_Problem
         self.delta = delta
         self.max_iter = max_iter
-        self.constraints = constraints
+        self.constraints = constraints  # list of constraints
         self.neighborhood = []
         self.curr_sol = init_sol  # current best solution
         self.search_history = []    # list of all previous "current" solutions.
+        self.M = M  # a large value, used to deteriorate the objectives in case of not solution not satisfying constraints
 
     # noinspection DuplicatedCode
     def generate_adjacent_x_vectors(self, x=[], neighborhood=[], current_span=[]):
@@ -90,7 +91,25 @@ class SearchAlgorithm:
         :return: a list of floats, containing the evaluations of the objectives, defined by self.problem
         # self.problem is one of the static methods of class MOO_Problem which returns the specified list.
         """
-        return self.problem(sol.x)
+        # no constraints, just return the vector of evaluated objective functions
+        if self.constraints is None:
+            return self.problem(sol.x)
+
+        # if there are constraints, compute how many of them are not satisfied. Result is summed in punishment_val
+        punishment_val = 0
+        for constraint in self.constraints:
+            satisfied, deteriorate_factor = constraint.is_satisfied(sol.x)
+            if satisfied is True:
+                continue
+            else:
+                punishment_val = punishment_val + deteriorate_factor
+
+        # for every constraint not satisfied, deteriorate every objective by a factor of M
+        punishment_val = punishment_val * self.M
+        objectives = self.problem(sol.x)
+        for i in range(len(objectives)):
+            objectives[i] = objectives[i] + punishment_val
+        return objectives
 
     # abstract
     def sort_neighborhood(self):

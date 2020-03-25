@@ -4,8 +4,8 @@ from PreferenceArticulation.SearchAlgorithm import SearchAlgorithm
 
 class LocalSearch(SearchAlgorithm):
 
-    def __init__(self, init_sol=None, problem =None, delta=None, max_iter=None, constraints=None):
-        super().__init__(init_sol=init_sol, problem=problem, delta=delta, max_iter=max_iter, constraints=constraints)
+    def __init__(self, init_sol=None, problem =None, delta=None, max_iter=None, constraints=None, M=100):
+        super().__init__(init_sol=init_sol, problem=problem, delta=delta, max_iter=max_iter, constraints=constraints, M=M)
 
     # uses abstract methods, so only child classes can invoke this method
     def search(self):
