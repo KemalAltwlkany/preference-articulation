@@ -54,7 +54,6 @@ def LS_BK1_variations():
     constraints = [BoundaryConstraint([(-5, 10), (-5, 10)])]
     M = 100
 
-    
     # A search with equal weights
     weights = [0.5, 0.5]
     LS_BK1_core(init_sol=init_sol, delta=delta, max_iter=max_iter, constraints=constraints, weights=weights, M=M, title='w=[0.5, 0.5]')
