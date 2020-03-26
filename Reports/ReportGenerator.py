@@ -50,7 +50,15 @@ class ReportGenerator():
             n_tests = len(entries) // 2
             for test_ID in range(n_tests):
                 self.file_names.append(self.problem_name + "_test_ID_" + str(test_ID))
-        # TO ADD - NEW
+        elif self.reportType is "new":
+            entries = os.listdir(self.load_folder)
+            n_tests = len(entries) // 2
+
+            # we now check how many reports exist in the save folder
+            n_reports = os.listdir(self.save_folder)
+            n_reports = len(n_reports)
+            for test_ID in range(n_reports-1, n_tests, 1):
+                self.file_names.append(self.problem_name + "_test_ID_" + str(test_ID))
 
     def generateReports(self):
         for file_name in self.file_names:
@@ -63,7 +71,7 @@ class ReportGenerator():
 
 
 if __name__ == '__main__':
-    x = ReportGenerator(reportType="all", alg_family="LocalSearch", alg_name="LS_apriori", problem_name="BK1")
+    x = ReportGenerator(reportType="new", alg_family="LocalSearch", alg_name="LS_apriori", problem_name="BK1")
     x.setupVariables()
     x.generateReports()
 

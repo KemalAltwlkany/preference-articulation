@@ -26,8 +26,8 @@ class LocalSearch(SearchAlgorithm):
             self.search_history.append(copy.deepcopy(self.curr_sol))
             if prev_sol == self.curr_sol:
                 print('Terminating after iteration number', it, ' because local extrema was found')
-                return self.search_history
+                return self.search_history, "local extrema", it
 
         print('Terminating because max iterations were exceeded, it = ', it)
-        return self.search_history
+        return self.search_history, "max iter exceeded", it
 

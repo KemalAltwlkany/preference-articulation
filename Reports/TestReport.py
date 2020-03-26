@@ -63,5 +63,5 @@ class TestReport(FPDF):
             print('Could not cwd to: ', self.raw_data_folder)
             print('Exiting.')
             sys.exit(2)
-        self.image(self.file_name + '.png', w=200)
+        self.image(self.file_name + '.png', w=115)
 
