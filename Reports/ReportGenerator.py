@@ -72,7 +72,8 @@ class ReportGenerator():
 
 
 if __name__ == '__main__':
-    x = ReportGenerator(reportType="new", alg_family="LocalSearch", alg_name="LS_apriori", problem_name="BK1")
+    #x = ReportGenerator(reportType="new", alg_family="LocalSearch", alg_name="LS_apriori", problem_name="BK1")
+    x = ReportGenerator(reportType="new", alg_family="TabuSearch", alg_name="TS_apriori", problem_name="BK1")
     x.setupVariables()
     x.generateReports()
 

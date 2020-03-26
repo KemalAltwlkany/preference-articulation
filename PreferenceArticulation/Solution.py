@@ -36,10 +36,12 @@ class Solution:
     def __ne__(self, other):
         return not self.__eq__(other)
 
+
+
     def __str__(self) -> str:
         s = ""
-        s = s + str(len(self.x)) + "\n"
-        s = s + str(len(self.y)) + "\n"
+        # s = s + str(len(self.x)) + "\n"
+        # s = s + str(len(self.y)) + "\n"
 
         for xi in self.x:
             s = s + str(xi) + "\n"

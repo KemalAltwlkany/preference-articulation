@@ -12,7 +12,7 @@ import json as json
 fig_num = 1
 
 
-def save_test_to_file(folder, file_name, init_sol, delta=None, max_iter=None, constraints=None, weights=None, M=None,
+def save_test_to_file(file_name, init_sol, delta=None, max_iter=None, weights=None, M=None,
                       final_sol=None, seed_val=None, termination_reason=None, last_iter=None):
     data = {}
     # Create initial solution in json
@@ -135,8 +135,8 @@ def LS_BK1_core(init_sol, delta, max_iter, constraints, weights, M, title, seed_
         # datetime.today().strftime("%A, %d %B %Y")
         file_name = "BK1_test_ID_" + str(test_ID)
         plt.savefig(file_name + '.png')
-        save_test_to_file(folder=folder, file_name=file_name, init_sol=init_sol, delta=delta, max_iter=max_iter,
-                          constraints=constraints, weights=weights, M=M, final_sol=final_sol, seed_val=seed_val,
+        save_test_to_file(file_name=file_name, init_sol=init_sol, delta=delta, max_iter=max_iter,
+                          weights=weights, M=M, final_sol=final_sol, seed_val=seed_val,
                           termination_reason=termination_reason, last_iter=last_iter)
     # plt.show()
     fig_num = fig_num + 1

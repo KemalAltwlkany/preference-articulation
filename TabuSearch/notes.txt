@@ -1,0 +1,2 @@
+TabuSearch, with tabu list purging
+BK1) AVERAGE ITERATION TIME:  0.053663411140441895
