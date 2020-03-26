@@ -12,16 +12,7 @@ import json as json
 fig_num = 1
 
 
-def save_test_to_file(folder, file_name, init_sol, delta=None, max_iter=None, constraints=None, weights=None, M=None, final_sol=None,  title=None):
-    # if not os.path.exists(folder):
-    #     os.makedirs(folder)
-    #
-    # try:
-    #     os.chdir(folder)
-    # except OSError:
-    #     print('Could not cwd to: ', folder)
-    #     print('Exiting.')
-    #     return
+def save_test_to_file(folder, file_name, init_sol, delta=None, max_iter=None, constraints=None, weights=None, M=None, final_sol=None, seed_val=None, title=None):
 
     data = {}
     # Create initial solution in json
@@ -42,6 +33,7 @@ def save_test_to_file(folder, file_name, init_sol, delta=None, max_iter=None, co
     data['delta'] = delta
     data['max iterations'] = max_iter
     data['M (criteria punishment)'] = M
+    data['seed'] = seed_val
 
     # Create weights vector in json
     data['weights'] = {}
@@ -70,7 +62,7 @@ def save_test_to_file(folder, file_name, init_sol, delta=None, max_iter=None, co
     return
 
 
-def LS_BK1_core(init_sol, delta, max_iter, constraints, weights, M, title, save=False):
+def LS_BK1_core(init_sol, delta, max_iter, constraints, weights, M, title, seed_val=0, save=False):
 
     # running Local Search on MOO Problem BK1
     problem = MOO_Problem.BK1
@@ -126,30 +118,31 @@ def LS_BK1_core(init_sol, delta, max_iter, constraints, weights, M, title, save=
         # datetime.today().strftime("%A, %d %B %Y")
         file_name = "BK1_test_ID_" + str(test_ID)
         plt.savefig(file_name + '.png')
-        save_test_to_file(folder, file_name, init_sol, delta, max_iter, constraints, weights, M, final_sol)
+        save_test_to_file(folder, file_name, init_sol, delta, max_iter, constraints, weights, M, final_sol, seed_val)
     plt.show()
     fig_num = fig_num + 1
 
 
 def LS_BK1_variations():
-    random.seed(100)
+    seed_val = 50
+    random.seed(seed_val)
     init_sol = Solution([random.uniform(-5, 10), random.uniform(-5, 10)])
     delta = 0.001
-    max_iter = 100
+    max_iter = 300
     constraints = [BoundaryConstraint([(-5, 10), (-5, 10)])]
     M = 100
 
     # A search with equal weights
     weights = [0.5, 0.5]
-    LS_BK1_core(init_sol=init_sol, delta=delta, max_iter=max_iter, constraints=constraints, weights=weights, M=M, title='w=[0.5, 0.5]', save=True)
+    LS_BK1_core(init_sol=init_sol, delta=delta, max_iter=max_iter, constraints=constraints, weights=weights, M=M, title='w=[0.5, 0.5]', seed_val=seed_val, save=True)
 
     # A search prioritizing the second criteria by a factor of 2
-    # weights = [0.33, 0.67]
-    # LS_BK1_core(init_sol=init_sol, delta=delta, max_iter=max_iter, constraints=constraints, weights=weights, M=M, title='w=[0.33, 0.67]')
+    weights = [0.33, 0.67]
+    LS_BK1_core(init_sol=init_sol, delta=delta, max_iter=max_iter, constraints=constraints, weights=weights, M=M, title='w=[0.33, 0.67]', seed_val=seed_val, save=True)
 
     # A search prioritizing the first criteria by a factor of 2
-    # weights = [0.67, 0.33]
-    # LS_BK1_core(init_sol=init_sol, delta=delta, max_iter=max_iter, constraints=constraints, weights=weights, M=M, title='w=[0.67, 0.33]')
+    weights = [0.67, 0.33]
+    LS_BK1_core(init_sol=init_sol, delta=delta, max_iter=max_iter, constraints=constraints, weights=weights, M=M, title='w=[0.67, 0.33]', seed_val=seed_val, save=True)
 
 
 if __name__ == '__main__':
