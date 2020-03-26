@@ -57,7 +57,7 @@ class ReportGenerator():
             # we now check how many reports exist in the save folder
             n_reports = os.listdir(self.save_folder)
             n_reports = len(n_reports)
-            for test_ID in range(n_reports-1, n_tests, 1):
+            for test_ID in range(n_reports, n_tests, 1):
                 self.file_names.append(self.problem_name + "_test_ID_" + str(test_ID))
 
     def generateReports(self):
@@ -67,6 +67,7 @@ class ReportGenerator():
             pdf.add_from_txt()
             pdf.add_image()
             os.chdir(self.save_folder)
+            pdf.meta_data()
             pdf.output("r_" + file_name + '.pdf', 'F')
 
 

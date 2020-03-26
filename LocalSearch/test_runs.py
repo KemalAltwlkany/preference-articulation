@@ -65,6 +65,7 @@ def save_test_to_file(folder, file_name, init_sol, delta=None, max_iter=None, co
 
 
 def LS_BK1_core(init_sol, delta, max_iter, constraints, weights, M, title, seed_val=0, save=False):
+
     # running Local Search on MOO Problem BK1
     problem = MOO_Problem.BK1
     search_alg = LocalSearchApriori(init_sol=init_sol, problem=problem, delta=delta, max_iter=max_iter,
@@ -73,7 +74,7 @@ def LS_BK1_core(init_sol, delta, max_iter, constraints, weights, M, title, seed_
     final_sol = search_history[-1]
     print('Final solution is: ', final_sol)
 
-    # plotting the results
+    # plotting the objective space
     global fig_num
     x1 = np.linspace(-5, 10, 300)
     x2 = np.linspace(-5, 10, 300)
@@ -86,20 +87,32 @@ def LS_BK1_core(init_sol, delta, max_iter, constraints, weights, M, title, seed_
     plt.figure()
     plt.scatter(f1, f2, s=1.0)
 
+    # second part plots the Pareto front of the problem
+    x1 = np.linspace(0, 5, 50)
+    x2 = np.linspace(0, 5, 50)
+    f1 = x1 ** 2 + x2 ** 2
+    f2 = (x1 - 5) ** 2 + (x2 - 5) ** 2
+    plt.plot(f1, f2, linewidth=3.5, linestyle='-', color='y')
+
+    # plotting the search history
     f1 = []
     f2 = []
     for sol in search_history:
         f1.append(sol.y[0])
         f2.append(sol.y[1])
     plt.plot(f1, f2, linewidth=3.5, linestyle='-', color='r')
-    plt.plot([f1[0]], [f2[0]], marker=">", markersize=10, color='g')
-    plt.plot([f1[-1]], [f2[-1]], marker="s", markersize=10, color='k')
+    plt.plot([f1[0]], [f2[0]], marker=">", markersize=10, color='g')    # starting position (init sol)
+    plt.plot([f1[-1]], [f2[-1]], marker="s", markersize=10, color='k')  # final position (final sol)
+
+    # add some plot labels
     plt.title('Search history, Local Search, BK1 ' + title)
     plt.xlabel('f1(x1, x2)')
     plt.ylabel('f2(x1, x2)')
     plt.xlim(0, 100)
     plt.ylim(0, 100)
     plt.grid(True)
+
+    # export data for reports
     if save is True:
         # SAVE PROCEDURE
         # 1.) Navigate to appropriate test folder
@@ -125,12 +138,12 @@ def LS_BK1_core(init_sol, delta, max_iter, constraints, weights, M, title, seed_
         save_test_to_file(folder=folder, file_name=file_name, init_sol=init_sol, delta=delta, max_iter=max_iter,
                           constraints=constraints, weights=weights, M=M, final_sol=final_sol, seed_val=seed_val,
                           termination_reason=termination_reason, last_iter=last_iter)
-    plt.show()
+    # plt.show()
     fig_num = fig_num + 1
 
 
 def LS_BK1_variations():
-    seed_val = 50
+    seed_val = 1
     random.seed(seed_val)
     init_sol = Solution([random.uniform(-5, 10), random.uniform(-5, 10)])
     delta = 0.01
